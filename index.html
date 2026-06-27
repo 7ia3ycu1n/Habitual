@@ -1,9 +1,9 @@
-<!DOCTYPE html
+<!DOCTYPE html>
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Language Journey | 語言學習追蹤</title>
+    <title>Habitual | 知識與習慣追蹤日誌</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <link rel="icon" type="image/png" href="logo.png">
@@ -12,8 +12,8 @@
 <body>
     <nav class="sidebar" id="sidebar">
         <div class="logo">
-            <i class="fa-solid fa-earth-americas"></i>
-            <span>Language Journey</span>
+            <i class="fa-solid fa-compass"></i>
+            <span>Habitual</span>
         </div>
         <ul class="nav-links">
             <li class="active" data-target="dashboard"><i class="fa-solid fa-house"></i> 首頁儀表板</li>
@@ -33,7 +33,7 @@
 
     <main class="main-content">
         <div class="daily-quote-card" id="daily-quote">
-            "學習另一種語言，就是擁有第二個靈魂。" - 查理曼大帝
+            "卓越不是一種行為，而是一種習慣。" - 亞里斯多德
         </div>
 
         <section id="dashboard" class="page-section active">
@@ -81,7 +81,7 @@
                     </div>
                     <div class="form-group">
                         <label>今日學習內容 (必填)</label>
-                        <input type="text" id="checkin-content" placeholder="例如：聽日文歌曲、背 20 個英文單字" required>
+                        <input type="text" id="checkin-content" placeholder="例如：練習 LeetCode 1 題、閱讀設計書籍 20 頁、背 20 個單字" required>
                     </div>
                     <div class="form-group">
                         <label>學習時間 (分鐘)</label>
@@ -89,7 +89,7 @@
                     </div>
                     <div class="form-group">
                         <label>備註 (選填)</label>
-                        <textarea id="checkin-note" rows="3" placeholder="寫下今天的學習心得..."></textarea>
+                        <textarea id="checkin-note" rows="3" placeholder="寫下今天的學習心得與收穫..."></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">送出打卡</button>
                 </form>
@@ -110,13 +110,13 @@
         </section>
 
         <section id="mistakes" class="page-section">
-            <h2><i class="fa-solid fa-book-open"></i> 錯題筆記</h2>
+            <h2><i class="fa-solid fa-book-open"></i> 錯題與知識漏洞筆記</h2>
             <div class="card form-card">
                 <form id="mistake-form">
                     <div class="form-group-row">
                         <div class="form-group">
-                            <label>語言</label>
-                            <input type="text" id="mistake-lang" placeholder="例如：英文、日文" required>
+                            <label>科目 / 領域</label>
+                            <input type="text" id="mistake-lang" placeholder="例如：JavaScript、演算法、多益英文" required>
                         </div>
                         <div class="form-group">
                             <label>日期</label>
@@ -124,38 +124,38 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>題目內容</label>
+                        <label>題目或盲點內容</label>
                         <input type="text" id="mistake-q" required>
                     </div>
                     <div class="form-group-row">
                         <div class="form-group">
-                            <label>你的答案</label>
+                            <label>你原本的理解 / 答案</label>
                             <input type="text" id="mistake-myans" class="text-red">
                         </div>
                         <div class="form-group">
-                            <label>正確答案</label>
+                            <label>正確知識 / 答案</label>
                             <input type="text" id="mistake-correct" class="text-green" required>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>錯誤原因 / 筆記</label>
+                        <label>錯誤原因 / 觀念解析</label>
                         <textarea id="mistake-reason" rows="2" required></textarea>
                     </div>
-                    <button type="submit" class="btn btn-primary">新增錯題</button>
+                    <button type="submit" class="btn btn-primary">新增盲點紀錄</button>
                 </form>
             </div>
             
             <div class="toolbar mt-2">
-                <input type="text" id="search-mistakes" placeholder="搜尋錯題...">
+                <input type="text" id="search-mistakes" placeholder="搜尋紀錄...">
                 <select id="filter-mistakes">
-                    <option value="">所有語言</option>
+                    <option value="">所有科目</option>
                 </select>
             </div>
             <div class="grid-cards" id="mistakes-list"></div>
         </section>
 
         <section id="review" class="page-section">
-            <h2><i class="fa-solid fa-shuffle"></i> 錯題隨機複習</h2>
+            <h2><i class="fa-solid fa-shuffle"></i> 知識盲點隨機複習</h2>
             <div class="flashcard-container">
                 <div class="card flashcard" id="flashcard">
                     <div class="flashcard-content" id="flashcard-content">
@@ -176,7 +176,7 @@
         </section>
 
         <section id="reports" class="page-section">
-            <h2><i class="fa-solid fa-chart-pie"></i> 學習進度報告</h2>
+            <h2><i class="fa-solid fa-chart-pie"></i> 學習與習慣進度報告</h2>
             <div class="encouragement-card" id="report-message"></div>
             
             <div class="stats-grid">
@@ -193,7 +193,7 @@
                     <div id="report-month-rate" class="stat-value text-green">0%</div>
                 </div>
                 <div class="stat-card">
-                    <h3>最常學習語言</h3>
+                    <h3>最常學習領域</h3>
                     <div id="report-top-lang" class="stat-value">無資料</div>
                 </div>
             </div>
@@ -281,7 +281,7 @@
 
         <section id="changelog" class="page-section">
             <h2><i class="fa-solid fa-code-branch"></i> 開發日誌 (Changelog)</h2>
-            <p class="text-gray" style="margin-bottom: 20px;">記錄 Language Journey 的進化與成長歷程，落實 Build in Public 的精神！</p>
+            <p class="text-gray" style="margin-bottom: 20px;">記錄 Habitual 的進化與成長歷程，落實 Build in Public 的精神！</p>
             
             <div class="card" style="border-left: 5px solid #eab308; background-color: rgba(234, 179, 8, 0.1); margin-bottom: 25px; padding: 15px;">
                 <h4 style="color: #eab308; margin: 0 0 8px 0; font-size: 1.1rem;">
@@ -293,6 +293,17 @@
             </div>
 
             <div class="changelog-timeline">
+                <div class="changelog-card card">
+                    <div class="version-tag badge-blue">v2.0.0</div>
+                    <span class="changelog-date">2026-06-27</span>
+                    <h3>🚀 轉型與全新品牌升級</h3>
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check text-green"></i> 正式更名為 <strong>Habitual</strong>，脫離單一語言限制，全面轉型為全學科與習慣追蹤系統。</li>
+                        <li><i class="fa-solid fa-circle-check text-green"></i> 核心欄位重構：原「語言」分類全面升級為「科目／領域」通用管理。</li>
+                        <li><i class="fa-solid fa-circle-check text-green"></i> 獨立資料存儲：啟用全新 LocalStorage Key，確保與舊版專案完全獨立運行。</li>
+                    </ul>
+                </div>
+
                 <div class="changelog-card card">
                     <div class="version-tag badge-blue">v1.1.1</div>
                     <span class="changelog-date">2026-06-02</span>
@@ -318,17 +329,8 @@
                 <div class="changelog-card card">
                     <div class="version-tag badge-green">v1.0.0</div>
                     <span class="changelog-date">2026-06-02</span>
-                    <h3>🚀 專案正式誕生！</h3>
+                    <h3>🚀 原專案正式誕生！</h3>
                     <p class="text-gray" style="margin: 5px 0 10px 0;">Language Journey 核心功能部署完成，正式上線 GitHub Pages！</p>
-                    <ul>
-                        <li><i class="fa-solid fa-circle-check text-green"></i> <strong>Dashboard 儀表板</strong>：快速檢視今日打卡狀態、連續天數與累積時間。</li>
-                        <li><i class="fa-solid fa-circle-check text-green"></i> <strong>每日打卡系統</strong>：記錄每日學習內容與時間.</li>
-                        <li><i class="fa-solid fa-circle-check text-green"></i> <strong>GitHub 風格熱力圖</strong>：動態生成過去 365 天的學習進度矩陣。</li>
-                        <li><i class="fa-solid fa-circle-check text-green"></i> <strong>錯題紀錄與隨機複習</strong>：卡片式錯題管理，搭配單字卡閃卡複習模式。</li>
-                        <li><i class="fa-solid fa-circle-check text-green"></i> <strong>統計報告</strong>：串接 Chart.js 圖表，自動分析近一週學習時間與月達成率。</li>
-                        <li><i class="fa-solid fa-circle-check text-green"></i> <strong>LocalStorage 永久存儲</strong>：資料安全儲存於個人瀏覽器，支援 JSON 備份。</li>
-                        <li><i class="fa-solid fa-circle-check text-green"></i> <strong>雙色主題</strong>：支援淺色模式與極簡深色模式。</li>
-                    </ul>
                 </div>
             </div> 
         </section> 
