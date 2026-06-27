@@ -72,6 +72,12 @@ function setupNavigation() {
     const sections = document.querySelectorAll('.page-section');
     const mobileToggle = document.getElementById('mobile-toggle');
     const sidebar = document.getElementById('sidebar');
+    const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+    function closeMobileMenu() {
+        sidebar.classList.remove('open');
+        if (sidebarOverlay) sidebarOverlay.classList.remove('active');
+    }
 
     links.forEach(link => {
         link.addEventListener('click', () => {
@@ -90,7 +96,7 @@ function setupNavigation() {
             }
 
             if(window.innerWidth <= 768) {
-                sidebar.classList.remove('open');
+                closeMobileMenu();
             }
         });
     });
@@ -98,7 +104,12 @@ function setupNavigation() {
     if (mobileToggle) {
         mobileToggle.addEventListener('click', () => {
             sidebar.classList.toggle('open');
+            if (sidebarOverlay) sidebarOverlay.classList.toggle('active', sidebar.classList.contains('open'));
         });
+    }
+
+    if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', closeMobileMenu);
     }
 }
 

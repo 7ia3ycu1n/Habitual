@@ -44,10 +44,6 @@ body {
 }
 
 /* ===== 側邊欄 ===== */
-.mobile-toggle {
-    display: none; /* 電腦版預設隱藏 */
-}
-
 .sidebar {
     width: 240px;
     background-color: var(--sidebar-bg);
@@ -57,19 +53,8 @@ body {
     flex-direction: column;
     position: fixed;
     height: 100vh;
-    max-height: 100vh;       /* 確保不超出螢幕高度 */
-    overflow-y: auto;        /* 關鍵：當內容超出時，允許垂直捲動 */
     z-index: 100;
     transition: var(--transition);
-    
-    /* 選擇性：隱藏捲動條（讓選單看起來乾淨，但依然可以捲動） */
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;     /* Firefox */
-}
-
-/* 隱藏 Chrome, Safari 和 Opera 的捲動條 */
-.sidebar::-webkit-scrollbar {
-    display: none;
 }
 
 .logo {
@@ -81,31 +66,6 @@ body {
     align-items: center;
     gap: 8px;
 }
-
-/* ===== 側邊欄 ===== */
-
-.logo {
-    font-size: 1.35rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    padding: 0 15px 15px 15px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-/* 填補在 logo 與 nav-links li 之間 */
-.nav-links {
-    flex: 1;                 /* 讓選單列表自動填滿剩餘空間 */
-    overflow-y: auto;        /* 讓超出高度的選單項目在此處捲動，保留 Logo 不動 */
-    list-style: none;        /* 順便確保清除預設點點 */
-}
-
-.nav-links li {
-    padding: 10px 15px;
-    margin: 2px 10px;
-    border-radius: var(--card-radius);
-    cursor: pointer;
 
 .nav-links li {
     padding: 10px 15px;
@@ -243,31 +203,39 @@ h3 { margin-bottom: 10px; font-size: 0.95rem; font-weight: 600; color: var(--tex
 
 .toolbar { display: flex; gap: 12px; margin-top: 10px; }
 
+/* ===== 行動裝置選單按鈕 (預設隱藏,僅在小尺寸顯示) ===== */
+.mobile-toggle {
+    display: none;
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 1100;
+    background: var(--primary-color);
+    color: white;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+}
+
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 99;
+}
+.sidebar-overlay.active { display: block; }
 
 /* ===== 響應式設計 ===== */
 @media (max-width: 768px) {
     .sidebar { transform: translateX(-100%); }
     .sidebar.open { transform: translateX(0); }
     .main-content { margin-left: 0; width: 100%; padding: 15px; }
-    
-    /* 修改此處：移除 display: block，統一使用 flex 來置中三條線 */
-    .mobile-toggle { 
-        position: fixed; 
-        top: 12px; 
-        left: 12px; 
-        z-index: 1000; 
-        background: var(--primary-color); 
-        color: white; 
-        width: 36px; 
-        height: 36px; 
-        border-radius: 50%; 
-        display: flex; 
-        align-items: center; 
-        justify-content: center; 
-        cursor: pointer; 
-        /*box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* 額外加上微陰影提升質感 */
-    }
-    
+    .mobile-toggle { display: flex; }
     .form-group-row { flex-direction: column; gap: 0; }
     .toolbar { flex-direction: column; gap: 8px; }
 }
@@ -283,4 +251,4 @@ h3 { margin-bottom: 10px; font-size: 0.95rem; font-weight: 600; color: var(--tex
 
 .version-tag { position: absolute; top: 15px; right: 15px; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; }
 .badge-green { background-color: rgba(16, 185, 129, 0.1); color: #10b981; }
-.badge-blue { background-color: rgba(99, 188, 224, 0.1); color: #63BCE0; }}
+.badge-blue { background-color: rgba(99, 188, 224, 0.1); color: #63BCE0; }
