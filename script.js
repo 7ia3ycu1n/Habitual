@@ -72,12 +72,6 @@ function setupNavigation() {
     const sections = document.querySelectorAll('.page-section');
     const mobileToggle = document.getElementById('mobile-toggle');
     const sidebar = document.getElementById('sidebar');
-    const sidebarOverlay = document.getElementById('sidebar-overlay');
-
-    function closeMobileMenu() {
-        sidebar.classList.remove('open');
-        if (sidebarOverlay) sidebarOverlay.classList.remove('active');
-    }
 
     links.forEach(link => {
         link.addEventListener('click', () => {
@@ -96,7 +90,7 @@ function setupNavigation() {
             }
 
             if(window.innerWidth <= 768) {
-                closeMobileMenu();
+                sidebar.classList.remove('open');
             }
         });
     });
@@ -104,12 +98,7 @@ function setupNavigation() {
     if (mobileToggle) {
         mobileToggle.addEventListener('click', () => {
             sidebar.classList.toggle('open');
-            if (sidebarOverlay) sidebarOverlay.classList.toggle('active', sidebar.classList.contains('open'));
         });
-    }
-
-    if (sidebarOverlay) {
-        sidebarOverlay.addEventListener('click', closeMobileMenu);
     }
 }
 
@@ -133,7 +122,6 @@ function renderAll() {
     renderDashboard();
     renderLogs();
     renderMistakes();
-    renderHeatmap();
     renderQuickNotes(); 
     renderReports();    
     renderCharts();     
@@ -487,21 +475,6 @@ function toggleFlashcard() {
 }
 
 // ===== 📊 圖表與報告 =====
-function renderHeatmap() {
-    const heatmapContainer = document.getElementById('heatmap');
-    if (!heatmapContainer) return;
-    heatmapContainer.innerHTML = '';
-    for(let i=0; i<35; i++) { 
-        const box = document.createElement('div');
-        box.style.width = '11px';
-        box.style.height = '11px';
-        box.style.backgroundColor = appData.checkins.length > 0 ? '#63BCE0' : (appData.settings.theme === 'dark' ? '#374151' : '#e5e7eb');
-        box.style.borderRadius = '2px';
-        box.style.display = 'inline-block';
-        box.style.margin = '2px';
-        heatmapContainer.appendChild(box);
-    }
-}
 
 function renderCharts() {
     const ctx = document.getElementById('timeChart');

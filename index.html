@@ -14,8 +14,6 @@
         <i class="fa-solid fa-bars"></i>
     </div>
 
-    <div class="sidebar-overlay" id="sidebar-overlay"></div>
-
     <nav class="sidebar" id="sidebar">
         <div class="logo">
             <i class="fa-solid fa-compass"></i>
@@ -25,13 +23,14 @@
             <li class="active" data-target="dashboard"><i class="fa-solid fa-house"></i> 首頁儀表板</li>
             <li data-target="checkin"><i class="fa-solid fa-calendar-check"></i> 每日打卡</li>
             <li data-target="logs"><i class="fa-solid fa-list"></i> 學習日誌</li>
+            <li data-target="reports"><i class="fa-solid fa-chart-pie"></i> 統計報告</li>
             <li data-target="mistakes"><i class="fa-solid fa-book-open"></i> 錯題紀錄</li>
             <li data-target="review"><i class="fa-solid fa-shuffle"></i> 隨機複習</li>
-            <li data-target="reports"><i class="fa-solid fa-chart-pie"></i> 統計報告</li>
-            <li data-target="settings"><i class="fa-solid fa-gear"></i> 設定與備份</li>
             <li data-target="quick-notes"><i class="fa-solid fa-pen-to-square"></i> 隨手筆記</li>
+            <li data-target="settings"><i class="fa-solid fa-gear"></i> 設定與備份</li>
             <li data-target="changelog"><i class="fa-solid fa-code-branch"></i> 開發日誌</li>
         </ul>
+        
     </nav>
 
     <main class="main-content">
@@ -96,12 +95,8 @@
                     </div>
                     <button type="submit" class="btn btn-primary">送出打卡</button>
                 </form>
-            </div>
-            
-            <div class="card mt-2">
-                <h3><i class="fa-brands fa-github"></i> 學習熱力圖 (最近一年)</h3>
-                <div class="heatmap-container" id="heatmap"></div>
-            </div>
+            </div> 
+
         </section>
 
         <section id="logs" class="page-section">
