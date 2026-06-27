@@ -1,6 +1,6 @@
 // ===== 核心狀態與資料設定 =====
-const STORAGE_KEY = 'languageJourneyApp'
-const NOTES_STORAGE_KEY = 'language_journey_notes'; // 隨手筆記專用 Key
+const STORAGE_KEY = 'habitualApp'; // 已更新為獨立的新 Key
+const NOTES_STORAGE_KEY = 'habitual_notes'; // 隨手筆記專用 Key
 
 let appData = {
     checkins: [],  // { id, date, content, time, note }
@@ -16,12 +16,12 @@ let savedNotes = [
     { type: 'update', text: '✨ 在編輯 GitHub 程式時要記得按鉛筆 ✏️ 進入編輯狀態！' }
 ];
 
-// 每日格言庫
+// 每日通用學習格言庫
 const quotes = [
-    "「學習另一種語言，就是擁有第二個靈魂。」 - 查理曼大帝",
-    "「語言是靈魂的血液。」 - 奧利弗·溫德爾·霍姆斯",
-    "「懂一種語言就是了解一個世界。」 - 弗朗茨·法農",
-    "「每天進步一點點，持續的力量是驚人的。」",
+    "「卓越不是一種行為，而是一種習慣。」 - 亞里斯多德",
+    "「不積跬步，無以至千里；不積小流，無以成江海。」",
+    "「投資知識，投資大腦，利息最高。」 - 班傑明·富蘭克林",
+    "「每天進步一點點，持續的力量是驚人的。」"
 ];
 
 // 閃卡當前狀態
@@ -237,7 +237,7 @@ function setupForms() {
         saveData();
         e.target.reset();
         document.getElementById('checkin-date').value = getTodayString();
-        alert('打卡成功！繼續保持！');
+        alert('打卡成功！持續累積！');
     });
 
     // 錯題新增送出
@@ -256,7 +256,7 @@ function setupForms() {
         saveData();
         e.target.reset();
         document.getElementById('mistake-date').value = getTodayString();
-        alert('錯題新增成功！');
+        alert('紀錄新增成功！');
     });
 
     document.getElementById('search-logs')?.addEventListener('input', renderLogs);
@@ -273,14 +273,14 @@ function setupForms() {
         const goal = document.getElementById('setting-goal').value;
         appData.settings.dailyGoal = parseInt(goal) || 30;
         saveData();
-        alert('學習目標已更新！');
+        alert('每日目標已更新！');
     });
 
     document.getElementById('btn-export')?.addEventListener('click', () => {
         const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(appData));
         const downloadAnchorNode = document.createElement('a');
         downloadAnchorNode.setAttribute("href", dataStr);
-        downloadAnchorNode.setAttribute("download", "LanguageJourney_Backup.json");
+        downloadAnchorNode.setAttribute("download", "Habitual_Backup.json");
         document.body.appendChild(downloadAnchorNode);
         downloadAnchorNode.click();
         downloadAnchorNode.remove();
@@ -435,7 +435,7 @@ function renderMistakes() {
         filtered = filtered.filter(m => m.lang === langFilter);
     }
 
-    container.innerHTML = filtered.length ? '' : '<p class="text-gray">無相符錯題紀錄。</p>';
+    container.innerHTML = filtered.length ? '' : '<p class="text-gray">無相符紀錄。</p>';
 
     filtered.forEach(m => {
         const div = document.createElement('div');
@@ -443,8 +443,8 @@ function renderMistakes() {
         div.innerHTML = `
             <div style="display:flex; justify-content:space-between; align-items:start; flex-direction:column; gap:8px; position:relative;">
                 <span class="badge-blue" style="padding:2px 6px; font-size:0.8rem; border-radius:4px;">${m.lang} (${m.date})</span>
-                <h4 style="margin-top:5px;">題目：${m.q}</h4>
-                <p class="text-red">您的答案：${m.myans || '未填'}</p>
+                <h4 style="margin-top:5px;">知識點/題目：${m.q}</h4>
+                <p class="text-red">您的理解：${m.myans || '未填'}</p>
                 <p class="text-green">正確答案：${m.correct}</p>
                 <p style="font-size:0.95rem;"><strong>解析：</strong>${m.reason}</p>
                 <button class="btn" style="background-color:#ef4444; padding:3px 8px; position:absolute; right:0; top:0;" onclick="deleteData('mistakes', ${m.id})"><i class="fa-solid fa-trash"></i></button>
@@ -459,7 +459,7 @@ function updateMistakeFilters() {
     if (!filterSelect) return;
     
     const langs = [...new Set(appData.mistakes.map(m => m.lang))];
-    filterSelect.innerHTML = '<option value="">所有語言</option>';
+    filterSelect.innerHTML = '<option value="">所有科目</option>';
     langs.forEach(lang => {
         if(lang) filterSelect.innerHTML += `<option value="${lang}">${lang}</option>`;
     });
@@ -483,7 +483,7 @@ function loadRandomFlashcard() {
     answerEl.classList.add('hidden'); // 隱藏答案
 
     if (appData.mistakes.length === 0) {
-        contentEl.innerHTML = '<p class="text-gray">目前沒有錯題紀錄可以複習，先去新增一些吧！</p>';
+        contentEl.innerHTML = '<p class="text-gray">目前沒有紀錄可以複習，先去新增一些吧！</p>';
         currentFlashcardIndex = -1;
         return;
     }
@@ -494,7 +494,7 @@ function loadRandomFlashcard() {
 
     contentEl.innerHTML = `
         <span class="badge-blue" style="padding:2px 6px; font-size:0.8rem; border-radius:4px;">${card.lang}</span>
-        <h3 style="margin-top:15px; font-size:1.3rem;">🎯 題目：${card.q}</h3>
+        <h3 style="margin-top:15px; font-size:1.3rem;">🎯 核心問題：${card.q}</h3>
         <p class="text-gray" style="margin-top:10px; font-size:0.9rem;"><i class="fa-solid fa-pointer"></i> 點擊卡片或下方按鈕顯示答案</p>
     `;
 
@@ -514,9 +514,8 @@ function toggleFlashcard() {
 function renderHeatmap() {
     const heatmapContainer = document.getElementById('heatmap');
     if (!heatmapContainer) return;
-    // 建立 53 週 x 7 天的極簡 GitHub 熱力矩陣模擬
     heatmapContainer.innerHTML = '';
-    for(let i=0; i<35; i++) { // 畫面呈現示範 35 格
+    for(let i=0; i<35; i++) { 
         const box = document.createElement('div');
         box.style.width = '12px';
         box.style.height = '12px';
@@ -532,22 +531,19 @@ function renderCharts() {
     const ctx = document.getElementById('timeChart');
     if (!ctx) return;
     
-    // 清除舊圖表防止重疊錯誤
     if (window.myDailyChart) window.myDailyChart.destroy();
 
-    // 取得最近 7 天標籤與統計時間
     const labels = [];
     const dataset = [];
     for (let i = 6; i >= 0; i--) {
         const d = new Date();
         d.setDate(d.getDate() - i);
         const dateStr = d.toISOString().split('T')[0];
-        labels.push(dateStr.slice(5)); // 只拿 MM-DD
+        labels.push(dateStr.slice(5)); 
         
         const logs = appData.checkins.filter(c => c.date === dateStr);
         const mins = logs.reduce((sum, c) => sum + parseInt(c.time || 0), 0);
         
-        // 將分鐘轉換為小時，並四捨五入到小數點後第一位
         const hours = Math.round((mins / 60) * 10) / 10;
         dataset.push(hours);
     }
@@ -589,14 +585,11 @@ function renderReports() {
     const topLangEl = document.getElementById('report-top-lang');
     const reportMessageEl = document.getElementById('report-message');
 
-    // 安全機制：如果 HTML 還沒渲染好或找不到欄位，就先不執行，避免程式死掉
     if (!weekDaysEl) return; 
 
-    // 使用當前時間 (2026年) 作為基準計算
     const today = new Date();
     const oneDayMs = 24 * 60 * 60 * 1000;
     
-    // 1. 計算本週 (最近 7 天，含今天) 完成天數與總時間
     let weekTimeSum = 0;
     let weekCheckedDates = new Set();
     
@@ -613,19 +606,17 @@ function renderReports() {
     
     if (weekDaysEl) weekDaysEl.innerText = `${weekCheckedDates.size} / 7 天`;
     
-    // 顯示小時的寫法
     const weekHoursSum = Math.round((weekTimeSum / 60) * 10) / 10;
     if (weekTimeEl) weekTimeEl.innerText = `${weekHoursSum} 小時`;
 
-    // 2. 計算本月完成率 (以當月總天數計算)
     const currentYear = today.getFullYear();
-    const currentMonth = today.getMonth(); // 0-11
+    const currentMonth = today.getMonth(); 
     const totalDaysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
     
     let monthCheckedDates = new Set();
     appData.checkins.forEach(c => {
         if (c.date) {
-            const cParts = c.date.split('-'); // 防呆拆解日期字串 "YYYY-MM-DD"
+            const cParts = c.date.split('-'); 
             if (parseInt(cParts[0]) === currentYear && parseInt(cParts[1]) === (currentMonth + 1)) {
                 monthCheckedDates.add(c.date);
             }
@@ -635,7 +626,7 @@ function renderReports() {
     const monthRate = Math.round((monthCheckedDates.size / totalDaysInMonth) * 100);
     if (monthRateEl) monthRateEl.innerText = `${monthRate}%`;
 
-    // 3. 計算最常學習語言 (從錯題紀錄分析)
+    // 依據錯題與盲點分析「最常學習領域」
     if (appData.mistakes && appData.mistakes.length > 0) {
         const langCounts = {};
         appData.mistakes.forEach(m => {
@@ -654,18 +645,18 @@ function renderReports() {
         if (topLangEl) topLangEl.innerText = '無資料';
     }
 
-    // 4. 動態格言/鼓勵卡片
+    // 動態鼓勵格言卡片
     if (reportMessageEl) {
         if (weekCheckedDates.size >= 5) {
-            reportMessageEl.innerText = "🔥 太強了！這週你簡真就是語言學習大師，繼續保持這個勢頭！";
+            reportMessageEl.innerText = "🔥 太強了！這週你的好習慣堅不可摧，簡直就是自律大師，繼續保持！";
             reportMessageEl.style.backgroundColor = "rgba(16, 185, 129, 0.1)";
             reportMessageEl.style.color = "#10b981";
         } else if (weekCheckedDates.size >= 1) {
-            reportMessageEl.innerText = "💪 棒極了！每一步前進都在累積實力，這週也一起加油吧！";
+            reportMessageEl.innerText = "💪 棒極了！每一步前進都在累積實力，這週也一起讓習慣成自然吧！";
             reportMessageEl.style.backgroundColor = "rgba(59, 130, 246, 0.1)";
             reportMessageEl.style.color = "#3b82f6";
         } else {
-            reportMessageEl.innerText = "🌱 學習是一場馬拉松，今天就是重新啟航的好日子，出發打卡吧！";
+            reportMessageEl.innerText = "🌱 優秀是一種習慣。今天就是重新啟航的好日子，立刻出發打卡吧！";
             reportMessageEl.style.backgroundColor = "rgba(234, 179, 8, 0.1)";
             reportMessageEl.style.color = "#ca8a04";
         }
