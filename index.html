@@ -1,0 +1,340 @@
+<!DOCTYPE html
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Language Journey | 語言學習追蹤</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="logo.png">
+    <link rel="apple-touch-icon" href="logo.png">
+</head>
+<body>
+    <nav class="sidebar" id="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-earth-americas"></i>
+            <span>Language Journey</span>
+        </div>
+        <ul class="nav-links">
+            <li class="active" data-target="dashboard"><i class="fa-solid fa-house"></i> 首頁儀表板</li>
+            <li data-target="checkin"><i class="fa-solid fa-calendar-check"></i> 每日打卡</li>
+            <li data-target="logs"><i class="fa-solid fa-list"></i> 學習日誌</li>
+            <li data-target="mistakes"><i class="fa-solid fa-book-open"></i> 錯題紀錄</li>
+            <li data-target="review"><i class="fa-solid fa-shuffle"></i> 隨機複習</li>
+            <li data-target="reports"><i class="fa-solid fa-chart-pie"></i> 統計報告</li>
+            <li data-target="settings"><i class="fa-solid fa-gear"></i> 設定與備份</li>
+            <li data-target="quick-notes"><i class="fa-solid fa-pen-to-square"></i> 隨手筆記</li>
+            <li data-target="changelog"><i class="fa-solid fa-code-branch"></i> 開發日誌</li>
+        </ul>
+        <div class="mobile-toggle" id="mobile-toggle">
+            <i class="fa-solid fa-bars"></i>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="daily-quote-card" id="daily-quote">
+            "學習另一種語言，就是擁有第二個靈魂。" - 查理曼大帝
+        </div>
+
+        <section id="dashboard" class="page-section active">
+            <h2><i class="fa-solid fa-house"></i> 首頁儀表板</h2>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>今日打卡狀態</h3>
+                    <div id="dash-status" class="stat-value">未打卡</div>
+                </div>
+                <div class="stat-card">
+                    <h3>連續打卡天數</h3>
+                    <div id="dash-streak" class="stat-value text-green">0 天 <i class="fa-solid fa-fire"></i></div>
+                </div>
+                <div class="stat-card">
+                    <h3>總學習時間</h3>
+                    <div id="dash-time" class="stat-value text-blue">0 分鐘</div>
+                </div>
+                <div class="stat-card">
+                    <h3>今日目標進度</h3>
+                    <div class="progress-bar-bg"><div class="progress-bar-fill" id="dash-progress"></div></div>
+                    <small id="dash-progress-text">0 / 30 分鐘</small>
+                </div>
+            </div>
+
+            <div class="dashboard-lists">
+                <div class="card">
+                    <h3>最近學習紀錄</h3>
+                    <ul id="dash-recent-logs" class="simple-list"></ul>
+                </div>
+                <div class="card">
+                    <h3>最近錯題紀錄</h3>
+                    <ul id="dash-recent-mistakes" class="simple-list"></ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="checkin" class="page-section">
+            <h2><i class="fa-solid fa-calendar-check"></i> 每日打卡</h2>
+            <div class="card form-card">
+                <form id="checkin-form">
+                    <div class="form-group">
+                        <label>學習日期</label>
+                        <input type="date" id="checkin-date" required>
+                    </div>
+                    <div class="form-group">
+                        <label>今日學習內容 (必填)</label>
+                        <input type="text" id="checkin-content" placeholder="例如：聽日文歌曲、背 20 個英文單字" required>
+                    </div>
+                    <div class="form-group">
+                        <label>學習時間 (分鐘)</label>
+                        <input type="number" id="checkin-time" min="1" placeholder="30" required>
+                    </div>
+                    <div class="form-group">
+                        <label>備註 (選填)</label>
+                        <textarea id="checkin-note" rows="3" placeholder="寫下今天的學習心得..."></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">送出打卡</button>
+                </form>
+            </div>
+            
+            <div class="card mt-2">
+                <h3><i class="fa-brands fa-github"></i> 學習熱力圖 (最近一年)</h3>
+                <div class="heatmap-container" id="heatmap"></div>
+            </div>
+        </section>
+
+        <section id="logs" class="page-section">
+            <h2><i class="fa-solid fa-list"></i> 學習日誌</h2>
+            <div class="toolbar">
+                <input type="text" id="search-logs" placeholder="搜尋學習內容...">
+            </div>
+            <div class="timeline" id="logs-timeline"></div>
+        </section>
+
+        <section id="mistakes" class="page-section">
+            <h2><i class="fa-solid fa-book-open"></i> 錯題筆記</h2>
+            <div class="card form-card">
+                <form id="mistake-form">
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label>語言</label>
+                            <input type="text" id="mistake-lang" placeholder="例如：英文、日文" required>
+                        </div>
+                        <div class="form-group">
+                            <label>日期</label>
+                            <input type="date" id="mistake-date" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>題目內容</label>
+                        <input type="text" id="mistake-q" required>
+                    </div>
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label>你的答案</label>
+                            <input type="text" id="mistake-myans" class="text-red">
+                        </div>
+                        <div class="form-group">
+                            <label>正確答案</label>
+                            <input type="text" id="mistake-correct" class="text-green" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>錯誤原因 / 筆記</label>
+                        <textarea id="mistake-reason" rows="2" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">新增錯題</button>
+                </form>
+            </div>
+            
+            <div class="toolbar mt-2">
+                <input type="text" id="search-mistakes" placeholder="搜尋錯題...">
+                <select id="filter-mistakes">
+                    <option value="">所有語言</option>
+                </select>
+            </div>
+            <div class="grid-cards" id="mistakes-list"></div>
+        </section>
+
+        <section id="review" class="page-section">
+            <h2><i class="fa-solid fa-shuffle"></i> 錯題隨機複習</h2>
+            <div class="flashcard-container">
+                <div class="card flashcard" id="flashcard">
+                    <div class="flashcard-content" id="flashcard-content">
+                        <p class="text-gray">點擊下方按鈕開始複習</p>
+                    </div>
+                    <div class="flashcard-answer hidden" id="flashcard-answer">
+                        <hr>
+                        <h4 class="text-green">正確答案：<span id="fc-correct"></span></h4>
+                        <p class="text-red">你當初的答案：<span id="fc-myans"></span></p>
+                        <p><strong>原因解析：</strong><span id="fc-reason"></span></p>
+                    </div>
+                </div>
+                <div class="flashcard-actions">
+                    <button class="btn btn-primary" id="btn-show-answer">顯示答案</button>
+                    <button class="btn btn-secondary" id="btn-next-card">下一題</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="reports" class="page-section">
+            <h2><i class="fa-solid fa-chart-pie"></i> 學習進度報告</h2>
+            <div class="encouragement-card" id="report-message"></div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>本週完成天數</h3>
+                    <div id="report-week-days" class="stat-value text-blue">0/7 天</div>
+                </div>
+                <div class="stat-card">
+                    <h3>本週學習時間</h3>
+                    <div id="report-week-time" class="stat-value">0 分鐘</div>
+                </div>
+                <div class="stat-card">
+                    <h3>本月完成率</h3>
+                    <div id="report-month-rate" class="stat-value text-green">0%</div>
+                </div>
+                <div class="stat-card">
+                    <h3>最常學習語言</h3>
+                    <div id="report-top-lang" class="stat-value">無資料</div>
+                </div>
+            </div>
+
+            <div class="charts-container mt-2">
+                <div class="card chart-card">
+                    <h3>最近 7 天學習時間</h3>
+                    <div class="chart-wrapper" style="max-width: 600px; height: 250px; margin: 0 auto;">
+                        <canvas id="timeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="settings" class="page-section">
+            <h2><i class="fa-solid fa-gear"></i> 設定與資料管理</h2>
+            
+            <div class="card mt-2">
+                <h3>介面設定</h3>
+                <div class="form-group">
+                    <label>主題模式</label>
+                    <button class="btn btn-secondary" id="btn-toggle-theme"><i class="fa-solid fa-moon"></i> 切換深色/淺色模式</button>
+                </div>
+            </div>
+
+            <div class="card mt-2">
+                <h3>學習目標</h3>
+                <div class="form-group">
+                    <label>每日目標時間 (分鐘)</label>
+                    <input type="number" id="setting-goal" value="30">
+                    <button class="btn btn-primary mt-1" id="btn-save-goal">儲存目標</button>
+                </div>
+            </div>
+
+            <div class="card mt-2">
+                <h3>資料備份</h3>
+                <p class="text-gray">你的所有資料都保存在當前瀏覽器中。你可以匯出檔案備份，或在其他裝置匯入。</p>
+                <div class="form-group-row mt-1">
+                    <button class="btn btn-primary" id="btn-export">匯出 JSON</button>
+                    <input type="file" id="file-import" accept=".json" style="display:none;">
+                    <button class="btn btn-secondary" onclick="document.getElementById('file-import').click()">匯入 JSON</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="quick-notes" class="page-section">
+            <h2>📝 隨手筆記與備忘</h2>
+            <p class="text-gray">隨手紀錄開發靈感、優化想法或學習過程中的重要備忘。</p>
+
+            <div class="card mt-2">
+                <form id="note-form" style="display: flex; flex-direction: column; gap: 15px;">
+                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <div style="flex: 1; min-width: 150px;">
+                            <label for="note-type" style="display: block; margin-bottom: 5px; font-weight: bold;">📝 筆記分類</label>
+                            <select id="note-type" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; background-color: var(--card-bg); color: var(--text-color);">
+                                <option value="update">✨ 功能更新/優化</option>
+                                <option value="memo">📖 學習備忘錄</option>
+                            </select>
+                        </div>
+                        <div style="flex: 3; min-width: 250px;">
+                            <label for="note-text" style="display: block; margin-bottom: 5px; font-weight: bold;">✍️ 內容</label>
+                            <input type="text" id="note-text" placeholder="輸入要紀錄的內容..." required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; background-color: var(--card-bg); color: var(--text-color);">
+                        </div>
+                    </div>
+                    <button type="submit" class="btn" style="align-self: flex-end; padding: 10px 20px;"><i class="fa-solid fa-floppy-disk"></i> 儲存紀錄</button>
+                </form>
+            </div>
+
+            <div class="dashboard-grid mt-2">
+                <div class="card">
+                    <h3 style="border-bottom: 2px solid #3b82f6; padding-bottom: 8px; margin-bottom: 12px; color: #3b82f6;">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> 功能更新/優化
+                    </h3>
+                    <ul id="update-list" style="list-style: none; padding: 0; margin: 0;"></ul>
+                </div>
+
+                <div class="card">
+                    <h3 style="border-bottom: 2px solid #10b981; padding-bottom: 8px; margin-bottom: 12px; color: #10b981;">
+                        <i class="fa-solid fa-book-bookmark"></i> 學習備忘錄
+                    </h3>
+                    <ul id="memo-list" style="list-style: none; padding: 0; margin: 0;"></ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="changelog" class="page-section">
+            <h2><i class="fa-solid fa-code-branch"></i> 開發日誌 (Changelog)</h2>
+            <p class="text-gray" style="margin-bottom: 20px;">記錄 Language Journey 的進化與成長歷程，落實 Build in Public 的精神！</p>
+            
+            <div class="card" style="border-left: 5px solid #eab308; background-color: rgba(234, 179, 8, 0.1); margin-bottom: 25px; padding: 15px;">
+                <h4 style="color: #eab308; margin: 0 0 8px 0; font-size: 1.1rem;">
+                    <i class="fa-solid fa-lightbulb"></i> 小提醒
+                </h4>
+                <p style="margin: 0; color: inherit; font-size: 0.95rem;">
+                    在編輯 GitHub 程式時要記得<strong>按鉛筆 ✏️</strong> 進入編輯狀態！
+                </p>
+            </div>
+
+            <div class="changelog-timeline">
+                <div class="changelog-card card">
+                    <div class="version-tag badge-blue">v1.1.1</div>
+                    <span class="changelog-date">2026-06-02</span>
+                    <h3>🔍 觀測到視窗適應問題</h3>
+                    <ul>
+                        <li>
+                            <i class="fa-solid fa-magnifying-glass" style="color: #0ea5e9; margin-right: 8px;"></i>
+                            <strong>問題發現：</strong>在電腦縮小分頁時，不會顯示菜單按鈕，只能停在某個功能，沒辦法切換頁面（待下個版本修復）。
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="changelog-card card">
+                    <div class="version-tag badge-blue">v1.1.0</div>
+                    <span class="changelog-date">2026-06-02</span>
+                    <h3>✨ 視覺與識別度優化</h3>
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check text-green"></i> 支援網站專屬 <strong>LOGO / Favicon</strong> 設定，分頁標籤與手機捷徑更美觀。</li>
+                        <li><i class="fa-solid fa-circle-check text-green"></i> 新增「開發日誌」功能，完整記錄專案的疊代與成長。</li>
+                    </ul>
+                </div>
+
+                <div class="changelog-card card">
+                    <div class="version-tag badge-green">v1.0.0</div>
+                    <span class="changelog-date">2026-06-02</span>
+                    <h3>🚀 專案正式誕生！</h3>
+                    <p class="text-gray" style="margin: 5px 0 10px 0;">Language Journey 核心功能部署完成，正式上線 GitHub Pages！</p>
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check text-green"></i> <strong>Dashboard 儀表板</strong>：快速檢視今日打卡狀態、連續天數與累積時間。</li>
+                        <li><i class="fa-solid fa-circle-check text-green"></i> <strong>每日打卡系統</strong>：記錄每日學習內容與時間.</li>
+                        <li><i class="fa-solid fa-circle-check text-green"></i> <strong>GitHub 風格熱力圖</strong>：動態生成過去 365 天的學習進度矩陣。</li>
+                        <li><i class="fa-solid fa-circle-check text-green"></i> <strong>錯題紀錄與隨機複習</strong>：卡片式錯題管理，搭配單字卡閃卡複習模式。</li>
+                        <li><i class="fa-solid fa-circle-check text-green"></i> <strong>統計報告</strong>：串接 Chart.js 圖表，自動分析近一週學習時間與月達成率。</li>
+                        <li><i class="fa-solid fa-circle-check text-green"></i> <strong>LocalStorage 永久存儲</strong>：資料安全儲存於個人瀏覽器，支援 JSON 備份。</li>
+                        <li><i class="fa-solid fa-circle-check text-green"></i> <strong>雙色主題</strong>：支援淺色模式與極簡深色模式。</li>
+                    </ul>
+                </div>
+            </div> 
+        </section> 
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
