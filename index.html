@@ -10,6 +10,10 @@
     <link rel="apple-touch-icon" href="logo.png">
 </head>
 <body>
+    <div class="mobile-toggle" id="mobile-toggle">
+        <i class="fa-solid fa-bars"></i>
+    </div>
+    
     <nav class="sidebar" id="sidebar">
         <div class="logo">
             <i class="fa-solid fa-compass"></i>
@@ -26,9 +30,7 @@
             <li data-target="quick-notes"><i class="fa-solid fa-pen-to-square"></i> 隨手筆記</li>
             <li data-target="changelog"><i class="fa-solid fa-code-branch"></i> 開發日誌</li>
         </ul>
-        <div class="mobile-toggle" id="mobile-toggle">
-            <i class="fa-solid fa-bars"></i>
-        </div>
+        
     </nav>
 
     <main class="main-content">
@@ -46,7 +48,7 @@
                 </div>
                 <div class="stat-card">
                     <h3>連續打卡天數</h3>
-                    <div id="dash-streak" class="stat-value text-green">0 天 <i class="fa-solid fa-fire"></i></div>
+                    <div id="dash-streak" class="stat-value text-blue">0 天 <i class="fa-solid fa-fire"></i></div>
                 </div>
                 <div class="stat-card">
                     <h3>總學習時間</h3>
@@ -89,7 +91,7 @@
                     </div>
                     <div class="form-group">
                         <label>備註 (選填)</label>
-                        <textarea id="checkin-note" rows="3" placeholder="寫下今天的學習心得與收穫..."></textarea>
+                        <textarea id="checkin-note" rows="2" placeholder="寫下今天的學習心得與收穫..."></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">送出打卡</button>
                 </form>
@@ -201,7 +203,7 @@
             <div class="charts-container mt-2">
                 <div class="card chart-card">
                     <h3>最近 7 天學習時間</h3>
-                    <div class="chart-wrapper" style="max-width: 600px; height: 250px; margin: 0 auto;">
+                    <div class="chart-wrapper" style="max-width: 600px; height: 230px; margin: 0 auto;">
                         <canvas id="timeChart"></canvas>
                     </div>
                 </div>
@@ -213,7 +215,7 @@
             
             <div class="card mt-2">
                 <h3>介面設定</h3>
-                <div class="form-group">
+                <div class="form-group" style="margin-bottom: 0;">
                     <label>主題模式</label>
                     <button class="btn btn-secondary" id="btn-toggle-theme"><i class="fa-solid fa-moon"></i> 切換深色/淺色模式</button>
                 </div>
@@ -221,17 +223,19 @@
 
             <div class="card mt-2">
                 <h3>學習目標</h3>
-                <div class="form-group">
+                <div class="form-group" style="margin-bottom: 0;">
                     <label>每日目標時間 (分鐘)</label>
-                    <input type="number" id="setting-goal" value="30">
-                    <button class="btn btn-primary mt-1" id="btn-save-goal">儲存目標</button>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="number" id="setting-goal" value="30" style="max-width: 150px;">
+                        <button class="btn btn-primary" id="btn-save-goal">儲存目標</button>
+                    </div>
                 </div>
             </div>
 
             <div class="card mt-2">
                 <h3>資料備份</h3>
-                <p class="text-gray">你的所有資料都保存在當前瀏覽器中。你可以匯出檔案備份，或在其他裝置匯入。</p>
-                <div class="form-group-row mt-1">
+                <p class="text-gray" style="font-size: 0.9rem; margin-bottom: 10px;">你的所有資料都保存在當前瀏覽器中。你可以匯出檔案備份，或在其他裝置匯入。</p>
+                <div class="form-group-row">
                     <button class="btn btn-primary" id="btn-export">匯出 JSON</button>
                     <input type="file" id="file-import" accept=".json" style="display:none;">
                     <button class="btn btn-secondary" onclick="document.getElementById('file-import').click()">匯入 JSON</button>
@@ -241,88 +245,73 @@
 
         <section id="quick-notes" class="page-section">
             <h2>📝 隨手筆記與備忘</h2>
-            <p class="text-gray">隨手紀錄開發靈感、優化想法或學習過程中的重要備忘。</p>
+            <p class="text-gray" style="font-size: 0.9rem; margin-bottom: 15px;">隨手紀錄開發靈感、優化想法或學習過程中的重要備忘。</p>
 
-            <div class="card mt-2">
-                <form id="note-form" style="display: flex; flex-direction: column; gap: 15px;">
-                    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+            <div class="card">
+                <form id="note-form" style="display: flex; flex-direction: column; gap: 12px;">
+                    <div style="display: flex; gap: 12px; flex-wrap: wrap;">
                         <div style="flex: 1; min-width: 150px;">
-                            <label for="note-type" style="display: block; margin-bottom: 5px; font-weight: bold;">📝 筆記分類</label>
-                            <select id="note-type" style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; background-color: var(--card-bg); color: var(--text-color);">
+                            <label for="note-type" style="display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.85rem;">📝 筆記分類</label>
+                            <select id="note-type">
                                 <option value="update">✨ 功能更新/優化</option>
                                 <option value="memo">📖 學習備忘錄</option>
                             </select>
                         </div>
                         <div style="flex: 3; min-width: 250px;">
-                            <label for="note-text" style="display: block; margin-bottom: 5px; font-weight: bold;">✍️ 內容</label>
-                            <input type="text" id="note-text" placeholder="輸入要紀錄的內容..." required style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 6px; background-color: var(--card-bg); color: var(--text-color);">
+                            <label for="note-text" style="display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.85rem;">✍️ 內容</label>
+                            <input type="text" id="note-text" placeholder="輸入要紀錄的內容..." required>
                         </div>
                     </div>
-                    <button type="submit" class="btn" style="align-self: flex-end; padding: 10px 20px;"><i class="fa-solid fa-floppy-disk"></i> 儲存紀錄</button>
+                    <button type="submit" class="btn btn-primary" style="align-self: flex-end; padding: 8px 16px;"><i class="fa-solid fa-floppy-disk"></i> 儲存紀錄</button>
                 </form>
             </div>
 
-            <div class="dashboard-grid mt-2">
+            <div class="dashboard-lists mt-2">
                 <div class="card">
-                    <h3 style="border-bottom: 2px solid #3b82f6; padding-bottom: 8px; margin-bottom: 12px; color: #3b82f6;">
+                    <h3 style="border-bottom: 2px solid #63BCE0; padding-bottom: 6px; margin-bottom: 10px; color: #63BCE0; font-size: 1rem;">
                         <i class="fa-solid fa-wand-magic-sparkles"></i> 功能更新/優化
                     </h3>
-                    <ul id="update-list" style="list-style: none; padding: 0; margin: 0;"></ul>
+                    <ul id="update-list" class="simple-list"></ul>
                 </div>
 
                 <div class="card">
-                    <h3 style="border-bottom: 2px solid #10b981; padding-bottom: 8px; margin-bottom: 12px; color: #10b981;">
+                    <h3 style="border-bottom: 2px solid #7AC5F0; padding-bottom: 6px; margin-bottom: 10px; color: #7AC5F0; font-size: 1rem;">
                         <i class="fa-solid fa-book-bookmark"></i> 學習備忘錄
                     </h3>
-                    <ul id="memo-list" style="list-style: none; padding: 0; margin: 0;"></ul>
+                    <ul id="memo-list" class="simple-list"></ul>
                 </div>
             </div>
         </section>
 
         <section id="changelog" class="page-section">
             <h2><i class="fa-solid fa-code-branch"></i> 開發日誌 (Changelog)</h2>
-            <p class="text-gray" style="margin-bottom: 20px;">記錄 Habitual 的進化與成長歷程，落實 Build in Public 的精神！</p>
+            <p class="text-gray" style="font-size: 0.9rem; margin-bottom: 15px;">記錄 Habitual 的進化與成長歷程，落實 Build in Public 的精神！</p>
             
-            <div class="card" style="border-left: 5px solid #eab308; background-color: rgba(234, 179, 8, 0.1); margin-bottom: 25px; padding: 15px;">
-                <h4 style="color: #eab308; margin: 0 0 8px 0; font-size: 1.1rem;">
-                    <i class="fa-solid fa-lightbulb"></i> 小提醒
-                </h4>
-                <p style="margin: 0; color: inherit; font-size: 0.95rem;">
-                    在編輯 GitHub 程式時要記得<strong>按鉛筆 ✏️</strong> 進入編輯狀態！
+            <div class="card" style="border-left: 4px solid #63BCE0; background-color: rgba(99, 188, 224, 0.08); margin-bottom: 15px; padding: 12px 15px;">
+                <p style="margin: 0; color: inherit; font-size: 0.9rem; font-weight: 500;">
+                    <i class="fa-solid fa-lightbulb" style="color: #63BCE0; margin-right: 5px;"></i> 在編輯 GitHub 程式時要記得<strong>按鉛筆 ✏️</strong> 進入編輯狀態！
                 </p>
             </div>
 
             <div class="changelog-timeline">
                 <div class="changelog-card card">
+                    <div class="version-tag badge-blue">v2.1.0</div>
+                    <span class="changelog-date">2026-06-27</span>
+                    <h3>🎨 UI 簡約化與專業感視覺重構</h3>
+                    <ul>
+                        <li><i class="fa-solid fa-circle-check text-blue"></i> 邊框改為 <strong>8px 精緻小圓角</strong>，使整體介面更加幹練專業。</li>
+                        <li><i class="fa-solid fa-circle-check text-blue"></i> 全面更新主題色系，引入 <code>#63BCE0</code> 等高質感科技藍色調。</li>
+                        <li><i class="fa-solid fa-circle-check text-blue"></i> 優化排版間距，減少冗餘留白，提高資訊密度與簡潔度。</li>
+                    </ul>
+                </div>
+
+                <div class="changelog-card card">
                     <div class="version-tag badge-blue">v2.0.0</div>
                     <span class="changelog-date">2026-06-27</span>
                     <h3>🚀 轉型與全新品牌升級</h3>
                     <ul>
-                        <li><i class="fa-solid fa-circle-check text-green"></i> 正式更名為 <strong>Habitual</strong>，脫離單一語言限制，全面轉型為全學科與習慣追蹤系統。</li>
-                        <li><i class="fa-solid fa-circle-check text-green"></i> 核心欄位重構：原「語言」分類全面升級為「科目／領域」通用管理。</li>
-                        <li><i class="fa-solid fa-circle-check text-green"></i> 獨立資料存儲：啟用全新 LocalStorage Key，確保與舊版專案完全獨立運行。</li>
-                    </ul>
-                </div>
-
-                <div class="changelog-card card">
-                    <div class="version-tag badge-blue">v1.1.1</div>
-                    <span class="changelog-date">2026-06-02</span>
-                    <h3>🔍 觀測到視窗適應問題</h3>
-                    <ul>
-                        <li>
-                            <i class="fa-solid fa-magnifying-glass" style="color: #0ea5e9; margin-right: 8px;"></i>
-                            <strong>問題發現：</strong>在電腦縮小分頁時，不會顯示菜單按鈕，只能停在某個功能，沒辦法切換頁面（待下個版本修復）。
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="changelog-card card">
-                    <div class="version-tag badge-blue">v1.1.0</div>
-                    <span class="changelog-date">2026-06-02</span>
-                    <h3>✨ 視覺與識別度優化</h3>
-                    <ul>
-                        <li><i class="fa-solid fa-circle-check text-green"></i> 支援網站專屬 <strong>LOGO / Favicon</strong> 設定，分頁標籤與手機捷徑更美觀。</li>
-                        <li><i class="fa-solid fa-circle-check text-green"></i> 新增「開發日誌」功能，完整記錄專案的疊代與成長。</li>
+                        <li><i class="fa-solid fa-circle-check text-blue"></i> 正式更名為 <strong>Habitual</strong>，全面轉型為全學科與習慣追蹤系統。</li>
+                        <li><i class="fa-solid fa-circle-check text-blue"></i> 啟用全新獨立 LocalStorage Key。</li>
                     </ul>
                 </div>
 
@@ -330,7 +319,6 @@
                     <div class="version-tag badge-green">v1.0.0</div>
                     <span class="changelog-date">2026-06-02</span>
                     <h3>🚀 原專案正式誕生！</h3>
-                    <p class="text-gray" style="margin: 5px 0 10px 0;">Language Journey 核心功能部署完成，正式上線 GitHub Pages！</p>
                 </div>
             </div> 
         </section> 
