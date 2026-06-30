@@ -1,31 +1,33 @@
-/* ===== CSS Variables (專業藍色調與緊湊佈局) ===== */
+/* ===== CSS Variables (移除 AI 感的精緻化重構) ===== */
 :root {
-    /* 淺色模式 */
-    --bg-color: #f4f7f9;
+    /* 淺色模式：微調背景與陰影，營造空氣感 */
+    --bg-color: #f8fafc;        /* 換成更有質感、帶微藍的 Slate 輕白 */
     --sidebar-bg: #ffffff;
     --card-bg: #ffffff;
-    --text-main: #1f2937;
-    --text-muted: #4b5563;
-    --primary-color: #63BCE0;  /* 主色調藍 */
-    --primary-hover: #7AC5F0;  /* 懸停藍 */
-    --accent-light: #9DD5EC;   /* 輔助淺藍 */
-    --success-color: #10b981; 
-    --danger-color: #ef4444;  
-    --border-color: #e5e7eb;
-    --shadow: 0 2px 4px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.02);
-    --card-radius: 8px;        /* 幹練小圓角 */
-    --transition: all 0.2s ease;
+    --text-main: #0f172a;       /* 提升對比，讓字體顯得俐落 */
+    --text-muted: #64748b;      /* 柔和的次要文字 */
+    --primary-color: #63BCE0;  
+    --primary-hover: #4faecf;  
+    --accent-light: #e0f2fe;   
+    --success-color: #43b790; 
+    --danger-color: #f5627a;  
+    --border-color: #e2e8f0;    /* 更淡的邊框，削弱「格子感」 */
+    
+    /* 關鍵：拋棄死板的小陰影，改用層次豐富的現代柔和陰影 */
+    --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.03), 0 8px 10px -6px rgba(15, 23, 42, 0.03);
+    --card-radius: 4px;       /* 換成更精緻俐落的小圓角 */
+    --transition: cubic-bezier(0.4, 0, 0.2, 1) 0.25s; /* 更流暢的物理動態曲線 */
 }
 
 body.dark-mode {
-    /* 深色模式 */
-    --bg-color: #0f172a;
-    --sidebar-bg: #1e293b;
-    --card-bg: #1e293b;
+    /* 深色模式：優化色彩層次，拒絕死黑 */
+    --bg-color: #22233a;
+    --sidebar-bg: #1a2946;
+    --card-bg: #242e4d;
     --text-main: #f8fafc;
     --text-muted: #94a3b8;
-    --border-color: #334155;
-    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.2);
+    --border-color: #223147;
+    --shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
 }
 
 /* ===== 基礎設定 ===== */
@@ -33,7 +35,10 @@ body.dark-mode {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    /* 關鍵：加入系統中文字型優化，並開啟字體平滑 */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "PingFang TC", "Microsoft JhengHei", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body {
@@ -41,6 +46,8 @@ body {
     color: var(--text-main);
     display: flex;
     min-height: 100vh;
+    line-height: 1.6;        /* 讓文字呼吸的行高 */
+    letter-spacing: 0.03em;  /* 微幅拉開繁體中文字距 */
 }
 
 /* ===== 側邊欄 ===== */
@@ -49,7 +56,7 @@ body {
 }
 
 .sidebar {
-    width: 240px;
+    width: 200px; /*這裡調整選單左右寬度!*/
     background-color: var(--sidebar-bg);
     border-right: 1px solid var(--border-color);
     padding: 15px 0;
@@ -62,7 +69,7 @@ body {
     z-index: 100;
     transition: var(--transition);
     
-    /* 選擇性：隱藏捲動條（讓選單看起來乾淨，但依然可以捲動） */
+    /* 隱藏捲動條（讓選單看起來乾淨，但依然可以捲動） */
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;     /* Firefox */
 }
@@ -82,26 +89,46 @@ body {
     gap: 8px;
 }
 
-
-/* 填補在 logo 與 nav-links li 之間 */
 .nav-links {
     flex: 1;                 /* 讓選單列表自動填滿剩餘空間 */
     overflow-y: auto;        /* 讓超出高度的選單項目在此處捲動，保留 Logo 不動 */
-    list-style: none;        /* 順便確保清除預設點點 */
+    list-style: none;        /* 清除預設點點 */
 }
 
 .nav-links li {
-    padding: 10px 15px;
-    margin: 2px 10px;
+    padding: 8px 12px;         /* 稍微加大上下間距，點擊體感更好 */
+    margin: 6px 12px;             /* 拿掉原本的上下 margin，讓線條能左右延伸 */
     border-radius: var(--card-radius);
     cursor: pointer;
     color: var(--text-muted);
-    font-weight: 500;
-    font-size: 0.95rem;
+    font-weight: 650;
+    font-size: 0.92rem;
     display: flex;
     align-items: center;
     gap: 10px;
     transition: var(--transition);
+    position: relative;
+}
+
+/* ─── 💡 就在這裡：用虛擬元素畫一條獨立、絕對筆直的分隔線 ─── */
+.nav-links li::after {
+    content: "";
+    position: absolute;
+    bottom: -3px;               /* 讓線稍微往下移到項目下方 */
+    left: 10px;                 /* 線條左邊留白，不跟文字撞在一起 */
+    right: 10px;                /* 線條右邊留白 */
+    height: 2px;                /* 線條厚度 */
+    background-color: rgba(15, 23, 42, 0.06); /* 極淡的現代感灰色（淺色模式） */
+}
+
+/* 深色模式下自動把線條調整為適合深色的淡白線 */
+body.dark-mode .nav-links li::after {
+    background-color: rgba(248, 250, 252, 0.06);
+}
+
+/* 最後一個選項底下不要有分隔線 */
+.nav-links li:last-child::after {
+    display: none;
 }
 
 .nav-links li:hover, .nav-links li.active {
@@ -109,12 +136,12 @@ body {
     color: var(--primary-color);
 }
 
-/* ===== 內容區 (減少留白) ===== */
+/* ===== 內容區 ===== */
 .main-content {
     margin-left: 240px;
-    padding: 20px;
+    padding: 40px 30px; /* 大幅增加上下留白，高階感立刻出來 */
     width: calc(100% - 240px);
-    max-width: 1140px;
+    max-width: 1200px;
 }
 
 .page-section {
@@ -131,19 +158,41 @@ body {
     to { opacity: 1; transform: translateY(0); }
 }
 
-h2 { margin-bottom: 15px; font-size: 1.35rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
-h3 { margin-bottom: 10px; font-size: 0.95rem; font-weight: 600; color: var(--text-muted); }
+/*分頁大標題*/
+h2 { 
+    margin-bottom: 24px; 
+    font-size: 1.2rem; 
+    font-weight: 700; 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    color: #2c4a61;
+}
+
+/*卡片小標*/
+h3 { 
+    margin-bottom: 14px; 
+    font-size: 1rem; 
+    font-weight: 600; 
+    color: var(--text-main); /* 讓小卡片標題也清晰明亮 */
+}
 
 /* ===== 卡片結構 ===== */
 .card {
     background: var(--card-bg);
     border-radius: var(--card-radius);
-    padding: 15px 20px;
+    padding: 24px;      /* 增加卡片內襯墊，讓裡面的元素不貼邊 */
     box-shadow: var(--shadow);
     border: 1px solid var(--border-color);
     transition: var(--transition);
 }
-.card:hover { border-color: var(--primary-color); }
+
+/* 滑過卡片時，換回經典的線條變色，取消飄浮與大陰影 */
+.card:hover { 
+    border-color: var(--primary-color); 
+    transform: none;
+    box-shadow: var(--shadow);
+}
 
 .mt-1 { margin-top: 10px; }
 .mt-2 { margin-top: 15px; }
@@ -208,7 +257,6 @@ h3 { margin-bottom: 10px; font-size: 0.95rem; font-weight: 600; color: var(--tex
 .hidden { display: none !important; }
 .flashcard-actions { margin-top: 12px; display: flex; gap: 10px; }
 
-
 /* ===== 微透淡藍色格言卡片 ===== */
 .daily-quote-card { 
     background: linear-gradient(135deg, var(--primary-color), var(--primary-hover)); 
@@ -225,13 +273,27 @@ h3 { margin-bottom: 10px; font-size: 0.95rem; font-weight: 600; color: var(--tex
 .toolbar { display: flex; gap: 12px; margin-top: 10px; }
 
 
-/* ===== 響應式設計 ===== */
+/* ===== 響應式設計（已修復括號錯誤） ===== */
 @media (max-width: 768px) {
-    .sidebar { transform: translateX(-100%); }
-    .sidebar.open { transform: translateX(0); }
-    .main-content { margin-left: 0; width: 100%; padding: 15px; }
+    .sidebar { 
+        transform: translateX(-100%); 
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 100vh;
+        z-index: 999;
+    }
     
-    /* 修改此處：移除 display: block，統一使用 flex 來置中三條線 */
+    .sidebar.open { 
+        transform: translateX(0); 
+    }
+    
+    .main-content { 
+        margin-left: 0; 
+        width: 100%; 
+        padding: 20px; 
+    }
+    
     .mobile-toggle { 
         position: fixed; 
         top: 12px; 
@@ -246,7 +308,7 @@ h3 { margin-bottom: 10px; font-size: 0.95rem; font-weight: 600; color: var(--tex
         align-items: center; 
         justify-content: center; 
         cursor: pointer; 
-        /*box-shadow: 0 2px 8px rgba(0,0,0,0.15); /* 額外加上微陰影提升質感 */
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
     }
     
     .form-group-row { flex-direction: column; gap: 0; }
@@ -265,3 +327,27 @@ h3 { margin-bottom: 10px; font-size: 0.95rem; font-weight: 600; color: var(--tex
 .version-tag { position: absolute; top: 15px; right: 15px; padding: 2px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; }
 .badge-green { background-color: rgba(16, 185, 129, 0.1); color: #10b981; }
 .badge-blue { background-color: rgba(99, 188, 224, 0.1); color: #63BCE0; }
+
+
+
+/* ===== 側邊欄手機版變灰遮罩 ===== */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(15, 23, 42, 0.4); /* 0.4 是變灰的深淺度，可以調整 */
+    z-index: 98;                             /* 確保在主要內容上方，但在側邊欄（999）下方 */
+    opacity: 0;
+    pointer-events: none;                    /* 隱藏時允許滑鼠穿透點擊底層內容 */
+    transition: opacity 0.25s ease;
+}
+
+/* 當遮罩被激活時顯示 */
+.sidebar-overlay.open {
+    opacity: 1;
+    pointer-events: auto;                    /* 顯示時可以被點擊 */
+}
+
+
