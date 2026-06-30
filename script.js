@@ -68,36 +68,48 @@ function saveNotesData() {
 
 // ===== 介面導覽與基礎設定 =====
 function setupNavigation() {
-    const links = document.querySelectorAll('.nav-links li');
+    const navItems = document.querySelectorAll('.nav-links li');
     const sections = document.querySelectorAll('.page-section');
-    const mobileToggle = document.getElementById('mobile-toggle');
     const sidebar = document.getElementById('sidebar');
+    const mobileToggle = document.getElementById('mobile-toggle');
+    
+    /* ─── 💡 獲取剛剛新增的遮罩元素 ─── */
+    const overlay = document.getElementById('sidebar-overlay');
 
-    links.forEach(link => {
-        link.addEventListener('click', () => {
-            links.forEach(l => l.classList.remove('active'));
-            link.classList.add('active');
+    // 選單切換頁面邏輯
+    navItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const target = item.getAttribute('data-target');
             
-            const targetId = link.getAttribute('data-target');
-            sections.forEach(sec => {
-                sec.classList.remove('active');
-                if (sec.id === targetId) sec.classList.add('active');
-            });
+            navItems.forEach(i => i.classList.remove('active'));
+            sections.forEach(s => s.classList.remove('active'));
             
-            if (targetId === 'reports') {
-                renderReports(); 
-                renderCharts();
-            }
-
-            if(window.innerWidth <= 768) {
+            item.classList.add('active');
+            const targetSec = document.getElementById(target);
+            if(targetSec) targetSec.classList.add('active');
+            
+            // 手機版點擊選單項目後，自動關閉選單與遮罩
+            if (window.innerWidth <= 768) {
                 sidebar.classList.remove('open');
+                if (overlay) overlay.classList.remove('open');
             }
         });
     });
 
-    if (mobileToggle) {
+    // 漢堡按鈕點擊邏輯
+    if (mobileToggle && sidebar) {
         mobileToggle.addEventListener('click', () => {
             sidebar.classList.toggle('open');
+            /* ─── 💡 讓遮罩跟著選單一起開關 ─── */
+            if (overlay) overlay.classList.toggle('open');
+        });
+    }
+
+    /* ─── 💡 重點功能：點擊灰色遮罩區域時，就自動把選單與遮罩都關掉 ─── */
+    if (overlay) {
+        overlay.addEventListener('click', () => {
+            sidebar.classList.remove('open');
+            overlay.classList.remove('open');
         });
     }
 }
